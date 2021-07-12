@@ -111,7 +111,7 @@ class Audience
 		//___________________________________
 		virtual void displayDetails()
 		{
-			cout<<setw(25)<<name<<setw(7)<<age;
+			cout<< left << setw(25)<<name<<setw(7)<<age;
 		}
 
 
@@ -151,7 +151,9 @@ class Adults : public Audience
 		//___________________________________
 		void displayDetails(){
 
-			cout<<setw(25)<<name<<setw(7)<<age<<setw(25)<<"-"<<setw(9)<<seatNo;
+			Audience::displayDetails();
+			 cout << setw(25) << "-"; 
+			 cout << setw(9) << seatNo; 
 		}
 };
 
@@ -183,17 +185,17 @@ class Kids : public Audience
 		double calcDisc(){
 			if (age <= 2)
 				return DISC1;
-			else if (age <= 12)
+			else
 				return DISC2;
-			else 
-				return 0;
+			
 		}
 
 		//Task 3(d): Redefine the displayDetails function [2.5 marks]
 		//___________________________________
 		void displayDetails(){
-
-			cout<<setw(25)<<name<<setw(7)<<age<<setw(25)<<parentName<<setw(9)<<seatNo;
+			Audience::displayDetails(); 
+			cout << setw(25) << parentName; 
+			cout << setw(9) << seatNo;	
 		}
 };
 
@@ -212,7 +214,7 @@ class Movie
 		double price;
 		int numKids, numAdults;
 		int hallNo, numAudience;
-		Audience * audienceList [120];
+		Audience * audienceList [SIZE];
 		Date date;
 		Time time;
 
@@ -262,7 +264,6 @@ class Movie
 			//___________________________________
 			cout << "Title: ";
 			getline(cin,title);
-			cin.ignore();
 			cout<<"Hall: ";
 			cin>>hallNo;
 			cout<<"Ticket Price: RM";
@@ -296,6 +297,7 @@ class Movie
 		{
 			//Task 4(d): Complete the definition of the displayInfoMovie function [3.5 marks]
 			//___________________________________
+			cout << left;
 			cout<<"Title\t: "<<title<<endl;
 			cout<<"Hall\t: "<<hallNo<<endl;
 			cout<<"Date\t:";
@@ -330,9 +332,11 @@ class Movie
 				//___________________________________
 				for (int i=0; i < numAudience; i++){
 
-					cout<<setw(4)<<i+1;	
-					audienceList[i] -> displayDetails();
-
+					cout << (i+1) << ". "; 
+					audienceList[i]->displayDetails(); 
+				    priceAftDisc = price * (100 - audienceList[i]->calcDisc()) / 100.0; 
+					totalPrice += priceAftDisc;
+					cout << priceAftDisc << endl;
 
 				}
 
@@ -452,10 +456,10 @@ int main()
 							//Task 5(c-ii): Check the seat availability. If the seat is available,
 							//update the status of the seat. [5 marks]
 							//___________________________________
-							if(movieList[choice2-1].getSeat(seatNo))
+							if(movieList[choice2-1].getSeat(seatNo-1))
 							{
-								movieList[choice2-1].setSeat(seatNo);
-								status=!status;
+								movieList[choice2-1].setSeat(seatNo-1);
+								status = false;
 							}
 
 							else
@@ -479,7 +483,6 @@ int main()
 						string parentName;
 						cout<<"Parent Name: ";
 						getline(cin,parentName);
-						cin.ignore();
 						audiencePtr=new Kids(name,age,seatNo,parentName);
 					}
 
@@ -511,6 +514,7 @@ int main()
 					{
 						cout<<"Movie #"<<i+1<<endl;
 						movieList[i].displayInfoMovie();
+						
 					}
 				}
 				break;

@@ -136,8 +136,6 @@ char* StoreData::getName()
 
 
 
-
-
 /* TOTAL MARKS:  2 marks */ //----------------------------------------------------------------------------------------
 //
 // Task 4: Write an accessor function for StoreData's sales (2M)
